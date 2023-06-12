@@ -19,6 +19,45 @@ public:
         randMatrix();
     }
 
+    /***********************************************/
+    //    Copy constructor and operator=
+    
+    Matrix(const Matrix& matrix)
+    {
+        size1 = matrix.size1;
+        size2 = matrix.size2;
+        this->arr = new int* [size1];
+        for (int i = 0; i < size1; i++)
+            this->arr[i] = new int[size2];
+
+        for (int i = 0; i < size1; i++)
+            for(int j = 0; j < size2; j++)
+                this->arr[i][j] = matrix.arr[i][j];
+    }
+
+    Matrix& operator=(const Matrix& matrix)
+    {
+        if (this != &matrix)
+        {
+            size1 = matrix.size1;
+            size2 = matrix.size2;
+
+            delete[] this->arr;
+            this->arr = nullptr;
+
+            this->arr = new int* [size1];
+            for (int i = 0; i < size1; i++)
+                this->arr[i] = new int[size2];
+
+            for (int i = 0; i < size1; i++)
+                for (int j = 0; j < size2; j++)
+                    this->arr[i][j] = matrix.arr[i][j];
+        }
+        return *this;
+    }
+
+    /***********************************************/
+
     void randMatrix()
     {
         for (int i = 0; i < size1; i++)
@@ -80,5 +119,12 @@ int main()
     myMatrix.swapColumns();
     myMatrix.swapRows();
 
+    Matrix my_second_matrix = myMatrix;
+    my_second_matrix.printMatrix();
+
+    Matrix my_third_matrix(2, 3);
+    my_third_matrix.printMatrix();
+    my_third_matrix = my_second_matrix;
+    my_third_matrix.printMatrix();
 }
 
