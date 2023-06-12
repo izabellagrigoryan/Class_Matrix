@@ -39,11 +39,17 @@ public:
     {
         if (this != &matrix)
         {
+            
+            for (int i = 0; i < size1; i++)
+            {
+                delete[] arr[i];
+                arr[i] = nullptr;
+            }
+            delete[] arr;
+            arr = nullptr;
+
             size1 = matrix.size1;
             size2 = matrix.size2;
-
-            delete[] this->arr;
-            this->arr = nullptr;
 
             this->arr = new int* [size1];
             for (int i = 0; i < size1; i++)
