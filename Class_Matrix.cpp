@@ -19,9 +19,6 @@ public:
         randMatrix();
     }
 
-    /***********************************************/
-    //    Copy constructor and operator=
-    
     Matrix(const Matrix& matrix)
     {
         size1 = matrix.size1;
@@ -62,7 +59,64 @@ public:
         return *this;
     }
 
-    /***********************************************/
+    Matrix(Matrix&& matrix)
+    {
+        if (this != &matrix)
+        {
+            this->size1 = matrix.size1;
+            this->size2 = matrix.size2;
+
+            this->arr = new int* [size1];
+            for (int i = 0; i < size1; i++)
+                this->arr[i] = new int[size2];
+
+            randMatrix();
+            
+            matrix.size1 = 0;
+            matrix.size2 = 0;
+            matrix.arr = nullptr;
+
+            std::cout << "This is move constructor" << std::endl;
+        }
+    }
+
+    Matrix& operator=(Matrix&& matrix)
+    {
+        if (this != &matrix)
+        {
+            for (int i = 0; i < size1; i++)
+            {
+                delete[] this->arr[i];
+                this->arr[i] = nullptr;
+            }
+            delete[] this->arr;
+            this->arr = nullptr;
+
+            this->size1 = matrix.size1;
+            this->size2 = matrix.size2;
+
+            this->arr = new int* [size1];
+            for (int i = 0; i < size1; i++)
+                this->arr[i] = new int[size2];
+
+            for (int i = 0; i < size1; i++)
+                for (int j = 0; j < size2; j++)
+                    this->arr[i][j] = matrix.arr[i][j];
+
+            for (int i = 0; i < size1; i++)
+            {
+                delete[] matrix.arr[i];
+                matrix.arr[i] = nullptr;
+            }
+            delete[] matrix.arr;
+            matrix.arr = nullptr;
+            matrix.size1 = 0;
+            matrix.size2 = 0;
+
+            std::cout << "This is move assignment" << std::endl;
+        }
+        return *this;
+    }
 
     void randMatrix()
     {
@@ -110,11 +164,11 @@ public:
     {
         for (int i = 0; i < size1; i++)
         {
-            delete[] arr[i];
-            arr[i] = nullptr;
+            delete[] this->arr[i];
+            this->arr[i] = nullptr;
         }
-        delete[] arr;
-        arr = nullptr;
+        delete[] this->arr;
+        this->arr = nullptr;
 
     }
 };
@@ -132,5 +186,13 @@ int main()
     my_third_matrix.printMatrix();
     my_third_matrix = my_second_matrix;
     my_third_matrix.printMatrix();
+
+    Matrix matrix1 = Matrix(3, 3);
+    Matrix matrix2(std::move(matrix1));
+
+    matrix2 = std::move(my_second_matrix);
+
+    matrix2.printMatrix();
+    my_second_matrix.printMatrix();
 }
 
