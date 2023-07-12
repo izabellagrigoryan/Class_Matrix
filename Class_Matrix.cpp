@@ -63,16 +63,10 @@ public:
     {
         if (this != &matrix)
         {
-            /*this->size1 = matrix.size1;
+            this->size1 = matrix.size1;
             this->size2 = matrix.size2;
 
-            this->arr = new int* [size1];
-            for (int i = 0; i < size1; i++)
-                this->arr[i] = new int[size2];*/
-
-            for (int i = 0; i < size1; i++)
-                for (int j = 0; j < size2; j++)
-                    this->arr[i][j] = matrix.arr[i][j];
+            this->arr = matrix.arr;
             
             matrix.size1 = 0;
             matrix.size2 = 0;
