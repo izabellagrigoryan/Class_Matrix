@@ -1,20 +1,21 @@
 // Class_Matrix.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include <iostream>
+template <typename T>
+
 class Matrix {
   
     int size1;
     int size2;
-    int** arr;
+    T** arr;
 public:
     Matrix(int size1, int size2)
     {
         this->size1 = size1;
         this->size2 = size2;
-        arr = new int*[size1];
+        arr = new T*[size1];
         for (int i = 0; i < size1; i++)
-            arr[i] = new int[size2];
+            arr[i] = new T[size2];
 
         randMatrix();
     }
@@ -23,9 +24,9 @@ public:
     {
         size1 = matrix.size1;
         size2 = matrix.size2;
-        this->arr = new int* [size1];
+        this->arr = new T* [size1];
         for (int i = 0; i < size1; i++)
-            this->arr[i] = new int[size2];
+            this->arr[i] = new T[size2];
 
         for (int i = 0; i < size1; i++)
             for(int j = 0; j < size2; j++)
@@ -48,9 +49,9 @@ public:
             size1 = matrix.size1;
             size2 = matrix.size2;
 
-            this->arr = new int* [size1];
+            this->arr = new T* [size1];
             for (int i = 0; i < size1; i++)
-                this->arr[i] = new int[size2];
+                this->arr[i] = new T[size2];
 
             for (int i = 0; i < size1; i++)
                 for (int j = 0; j < size2; j++)
@@ -91,9 +92,9 @@ public:
             this->size1 = matrix.size1;
             this->size2 = matrix.size2;
 
-            this->arr = new int* [size1];
+            this->arr = new T* [size1];
             for (int i = 0; i < size1; i++)
-                this->arr[i] = new int[size2];
+                this->arr[i] = new T[size2];
 
             for (int i = 0; i < size1; i++)
                 for (int j = 0; j < size2; j++)
@@ -170,25 +171,19 @@ public:
 };
 int main()
 {
-    Matrix myMatrix(4, 5);
+    Matrix<double> myMatrix(4, 5);
     myMatrix.printMatrix();
     myMatrix.swapColumns();
     myMatrix.swapRows();
 
-    Matrix my_second_matrix = myMatrix;
+    Matrix<double> my_second_matrix = myMatrix;
     my_second_matrix.printMatrix();
 
-    Matrix my_third_matrix(2, 3);
-    my_third_matrix.printMatrix();
-    my_third_matrix = my_second_matrix;
-    my_third_matrix.printMatrix();
+    Matrix<char> matrix1 = Matrix<char>(3, 3);
+    Matrix<char> matrix2(Matrix<char>(2, 2));
 
-    Matrix matrix1 = Matrix(3, 3);
-    Matrix matrix2(std::move(matrix1));
-
-    matrix2 = std::move(my_second_matrix);
+    matrix2 = std::move(Matrix<char>(2, 2));
 
     matrix2.printMatrix();
-    my_second_matrix.printMatrix();
 }
 
