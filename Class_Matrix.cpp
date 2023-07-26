@@ -92,23 +92,11 @@ public:
             this->size1 = matrix.size1;
             this->size2 = matrix.size2;
 
-            this->arr = new T* [size1];
-            for (int i = 0; i < size1; i++)
-                this->arr[i] = new T[size2];
+            this->arr = matrix.arr;
 
-            for (int i = 0; i < size1; i++)
-                for (int j = 0; j < size2; j++)
-                    this->arr[i][j] = matrix.arr[i][j];
-
-            for (int i = 0; i < size1; i++)
-            {
-                delete[] matrix.arr[i];
-                matrix.arr[i] = nullptr;
-            }
-            delete[] matrix.arr;
-            matrix.arr = nullptr;
             matrix.size1 = 0;
             matrix.size2 = 0;
+            matrix.arr = nullptr;
 
             std::cout << "This is move assignment" << std::endl;
         }
@@ -180,9 +168,12 @@ int main()
     my_second_matrix.printMatrix();
 
     Matrix<char> matrix1 = Matrix<char>(3, 3);
+    matrix1.printMatrix();
     Matrix<char> matrix2(Matrix<char>(2, 2));
 
-    matrix2 = std::move(Matrix<char>(2, 2));
+    matrix2.printMatrix();
+
+    matrix2 = std::move(matrix1);
 
     matrix2.printMatrix();
 }
